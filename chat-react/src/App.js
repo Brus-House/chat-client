@@ -8,11 +8,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h3>Welcome To Brus House Chat Bot</h3>
-      </header>
       <Router>
-
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/Register">Register</Link></li>
