@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Register.scss";
-import { useState } from "react";
 import Axios from  "axios";
 
 
@@ -31,7 +30,6 @@ function Register() {
                 <button name="submit" type="submit" onClick={registerUser}>Register</button>
             </div>
         </div>
-        
     </div>
     )
 }

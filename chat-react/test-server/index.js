@@ -26,6 +26,23 @@ app.post('/registration/', (req, res) => {
     });
 });
 
+app.post('/login/', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    database.query("SELECT * FROM chatclient WHERE email = ? AND password = ?", [email, password], (err, result) => {
+        if (err) {
+            res.send({err:err});
+        } 
+        if (result.length > 0) {
+            //res.send(result);
+            res.send({message : "0"});
+        } else {
+            res.send({message : "Invalid username or password"});
+        }
+    });
+});
+
 app.listen(3001, () => {
     console.log("Your app is listening =]");
 })
