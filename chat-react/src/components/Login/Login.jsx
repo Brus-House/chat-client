@@ -7,19 +7,35 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate("");
-  const [message, setMessage] = useState("");
+  const [loginStatus, setLoginStatus] = useState(false);
   
   const loginUser = () => {
     //console.log(email+password);
-    Axios.post("http://localhost:3001/login", {email:email, password:password})
-      .then((response) => {
-        //console.log(response.data);
-        if (response.data.message === "0") {
-          navigate('/Profile');
-        } else {
-          setMessage(response.data.message)
-        }
-      });
+    Axios.post("http://localhost:3001/login", {
+      email:email, 
+      password:password
+    }).then((response) => {
+      console.log(response.data);
+      if (!response.data.auth) {
+        setLoginStatus(false);
+      } else {
+        //storing token into local storeage
+        localStorage.setItem("token", "Bearer " + response.data.token);
+        //localStorage.setItem("token", response.data.token);
+        setLoginStatus(true);
+        //navigate('/Profile');
+      }
+    });
+  }
+
+  const userAuthenticated = () => {
+    Axios.get("http://localhost:3001/getUserInfo", {
+      headers: {
+        "x-access-token": localStorage.getItem("token"),
+    }}).then((response) => {
+      console.log(response);
+      navigate('/Profile');
+    });
   }
 
   return (
@@ -36,7 +52,8 @@ function Login() {
             required/>
             <button name="submit" type="submit" onClick={loginUser}>Login</button>
             {/* fetching message const here */}
-            {message}
+
+            {loginStatus && <button onClick={userAuthenticated}> Check if Authenticated </button>}
           </div>
         </div>
     </div>
